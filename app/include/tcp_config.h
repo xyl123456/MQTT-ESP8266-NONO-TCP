@@ -1,9 +1,9 @@
 #ifndef __TCP_CONFIG_H__
 #define __TCP_CONFIG_H__
 
-#define 		TCP_CFG_HOLDER      0x00FF55A4    /* Change this value to load default configurations */
+#define 		TCP_CFG_HOLDER      0x00FF55A1    /* Change this value to load default configurations */
 #define 		TCP_CLIENT_ID      "cliend123"
-#define 		TCP_HOST			"192.168.99.243"
+#define 		TCP_HOST		   "192.168.1.178" //"xylvip.top"//"192.168.1.178" //"api.env365.cn"//"192.168.99.243"   api.env365.cn
 #define         TCP_PORT			1883
 
 #define 		STA_SSID 			"newwifi"    // your AP/router SSID to config your device networking

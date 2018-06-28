@@ -1,7 +1,7 @@
 /*
  * Fork form https://github.com/DaveGamble/cJSON
- * ����ѧϰcJSON
- * cJSON�汾�� v1.6.0
+ * 锟斤拷锟斤拷学习cJSON
+ * cJSON锟芥本锟斤拷 v1.6.0
  */
 
 /*
@@ -78,8 +78,8 @@
 #endif
 
 /************************************************************************************/
-// �йش�����Ϣ�Ĵ���
-/* ������Ϣ�ṹ�� */
+// 锟叫关达拷锟斤拷锟斤拷息锟侥达拷锟斤拷
+/* 锟斤拷锟斤拷锟斤拷息锟结构锟斤拷 */
 typedef struct {
 	const unsigned char *json;
 	size_t position;
@@ -88,7 +88,7 @@ static error global_error = { NULL, 0 };
 
 /*
  * function: cJSON_GetErrorPtr
- * description: ��ȡ������Ϣ
+ * description: 锟斤拷取锟斤拷锟斤拷锟斤拷息
  */
 CJSON_PUBLIC(const char *) cJSON_GetErrorPtr(void)
 {
@@ -96,7 +96,7 @@ CJSON_PUBLIC(const char *) cJSON_GetErrorPtr(void)
 }
 
 /************************************************************************************/
-// �йذ汾�Ĵ���
+// 锟叫关版本锟侥达拷锟斤拷
 /* This is a safeguard to prevent copy-pasters from using incompatible C and header files */
 #if (CJSON_VERSION_MAJOR != 1) || (CJSON_VERSION_MINOR != 6) || (CJSON_VERSION_PATCH != 0)
 #error cJSON.h and cJSON.c have different versions. Make sure that both have the same.
@@ -119,7 +119,7 @@ CJSON_PUBLIC(const char*) cJSON_Version(void)
 /*
  * function: case_insensitive_strcmp
  * description: Case insensitive string comparison, doesn't consider two NULL pointers equal though
- *              �����ִ�Сд�Ƚ�
+ *              锟斤拷锟斤拷锟街达拷小写锟饺斤拷
  */
 ICACHE_FLASH_ATTR static int case_insensitive_strcmp(
 		const unsigned char *string1, const unsigned char *string2) {
@@ -142,16 +142,16 @@ ICACHE_FLASH_ATTR static int case_insensitive_strcmp(
 }
 
 /************************************************************************************/
-// �й��ڴ������ͷŵĴ���
-// �ڴ������ͷŵĹ���
+// 锟叫癸拷锟节达拷锟斤拷锟斤拷锟酵放的达拷锟斤拷
+// 锟节达拷锟斤拷锟斤拷锟酵放的癸拷锟斤拷
 typedef struct internal_hooks {
 	void *(*allocate)(size_t size);
 	void (*deallocate)(void *pointer);
 	void *(*reallocate)(void *pointer, size_t size);
 } internal_hooks;
 
-// ����cJSON���ڴ������õķ�ʽ
-// ��ֲ��ʱ�������Ҫ�޸�
+// 锟斤拷锟斤拷cJSON锟斤拷锟节达拷锟斤拷锟斤拷锟矫的凤拷式
+// 锟斤拷植锟斤拷时锟斤拷锟斤拷锟斤拷锟揭拷薷锟�
 
 #if defined(_MSC_VER)
 /* work around MSVC error C2322: '...' address of dillimport '...' is not static */
@@ -190,25 +190,25 @@ static internal_hooks global_hooks = { internal_malloc, internal_free,
 
 /*
  * function: cJSON_strdup
- * description: �ַ���������������create��������õ�
+ * description: 锟街凤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷create锟斤拷锟斤拷锟斤拷锟斤拷玫锟�
  */
 ICACHE_FLASH_ATTR static unsigned char* cJSON_strdup(
 		const unsigned char* string, const internal_hooks * const hooks) {
 	size_t length = 0;
 	unsigned char *copy = NULL;
 
-	// ������
+	// 锟斤拷锟斤拷锟斤拷
 	if (string == NULL) {
 		return NULL;
 	}
 
 	length = os_strlen((const char*) string) + sizeof("");
-	copy = (unsigned char*) hooks->allocate(length);		// �����ڴ�
+	copy = (unsigned char*) hooks->allocate(length);		// 锟斤拷锟斤拷锟节达拷
 	if (copy == NULL) {
 		return NULL;
 	}
 
-	// ����
+	// 锟斤拷锟斤拷
 	os_memcpy(copy, string, length);
 
 	return copy;
@@ -216,7 +216,7 @@ ICACHE_FLASH_ATTR static unsigned char* cJSON_strdup(
 
 /*
  * function: cJSON_InitHooks
- * description: ��ʼ�����Ӻ���
+ * description: 锟斤拷始锟斤拷锟斤拷锟接猴拷锟斤拷
  */
 CJSON_PUBLIC(void) cJSON_InitHooks(cJSON_Hooks* hooks) {
 #ifndef CJSON_FOR_ESP8266
@@ -261,14 +261,14 @@ CJSON_PUBLIC(void) cJSON_InitHooks(cJSON_Hooks* hooks) {
 
 /*
  * function: cJSON_New_Item
- * description: ����һ��item��item�������Ϊһ���ڵ�
+ * description: 锟斤拷锟斤拷一锟斤拷item锟斤拷item锟斤拷锟斤拷锟斤拷锟轿伙拷锟斤拷诘锟�
  */
 /* Internal constructor. */
 ICACHE_FLASH_ATTR static cJSON *cJSON_New_Item(
 		const internal_hooks * const hooks) {
 	cJSON* node = (cJSON*) hooks->allocate(sizeof(cJSON));
 	if (node) {
-		os_memset(node, '\0', sizeof(cJSON));	// ��ʼ��Ϊ0
+		os_memset(node, '\0', sizeof(cJSON));	// 锟斤拷始锟斤拷为0
 	}
 
 	return node;
@@ -276,8 +276,8 @@ ICACHE_FLASH_ATTR static cJSON *cJSON_New_Item(
 
 /*
  * function: cJSON_Delete
- * description: ɾ��item�����õݹ�ķ�ʽ�ͷ�item->child��ѭ����ʽ�ͷ�item->next
- *              ��root�ڵ㲻ʹ�ú��������������
+ * description: 删锟斤拷item锟斤拷锟斤拷锟矫递癸拷姆锟绞斤拷头锟絠tem->child锟斤拷循锟斤拷锟斤拷式锟酵凤拷item->next
+ *              锟斤拷root锟节点不使锟矫猴拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟�
  */
 /* Delete a cJSON structure. */
 CJSON_PUBLIC(void) cJSON_Delete(cJSON *item) {
@@ -285,7 +285,7 @@ CJSON_PUBLIC(void) cJSON_Delete(cJSON *item) {
 	while (item != NULL) {
 		next = item->next;
 		if (!(item->type & cJSON_IsReference) && (item->child != NULL)) {
-			cJSON_Delete(item->child);  // ��ʼ�ݹ�
+			cJSON_Delete(item->child);  // 锟斤拷始锟捷癸拷
 		}
 		if (!(item->type & cJSON_IsReference) && (item->valuestring != NULL)) {
 			global_hooks.deallocate(item->valuestring);
@@ -294,7 +294,7 @@ CJSON_PUBLIC(void) cJSON_Delete(cJSON *item) {
 			global_hooks.deallocate(item->string);
 		}
 		global_hooks.deallocate(item);
-		item = next;	// ��ȡ��һ���ڵ�
+		item = next;	// 锟斤拷取锟斤拷一锟斤拷锟节碉拷
 	}
 }
 
@@ -315,13 +315,13 @@ ICACHE_FLASH_ATTR static unsigned char get_decimal_point(void) {
 
 /************************************************************************************/
 
-/* �����������Ľṹ�� */
+/* 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟侥结构锟斤拷 */
 typedef struct {
 	const unsigned char *content;
 	size_t length;
 	size_t offset;
 	size_t depth; /* How deeply nested (in arrays/objects) is the input at the current offset. */
-	internal_hooks hooks;	// ����
+	internal_hooks hooks;	// 锟斤拷锟斤拷
 } parse_buffer;
 
 /* check if the given size is left to read in a given parse buffer (starting with 1) */
@@ -336,21 +336,21 @@ typedef struct {
 
 /*
  * function: parse_number
- * parameter: cJSON * const item - �����item
- *            parse_buffer * const input_buffer - ���뻺����
+ * parameter: cJSON * const item - 锟斤拷锟斤拷锟絠tem
+ *            parse_buffer * const input_buffer - 锟斤拷锟诫缓锟斤拷锟斤拷
  * return: cJSON_bool
  * description: Parse the input text to generate a number, and populate the result into item.
- *              ����������ı�������һ�����֣����ѽ���Ƶ�item
+ *              锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷谋锟斤拷锟斤拷锟斤拷锟揭伙拷锟斤拷锟斤拷郑锟斤拷锟斤拷呀锟斤拷锟狡碉拷item
  */
 ICACHE_FLASH_ATTR static cJSON_bool parse_number(cJSON * const item,
 		parse_buffer * const input_buffer) {
 	double number = 0;
 	unsigned char *after_end = NULL;
 	unsigned char number_c_string[64];
-	unsigned char decimal_point = get_decimal_point();	// decimal_point ��ʼ��
+	unsigned char decimal_point = get_decimal_point();	// decimal_point 锟斤拷始锟斤拷
 	size_t i = 0;
 
-	// �������Ĳ���
+	// 锟斤拷锟斤拷锟斤拷锟侥诧拷锟斤拷
 	if ((input_buffer == NULL) || (input_buffer->content == NULL)) {
 		return false;
 	}
@@ -378,7 +378,7 @@ ICACHE_FLASH_ATTR static cJSON_bool parse_number(cJSON * const item,
 		case 'E':
 			number_c_string[i] = buffer_at_offset(input_buffer)[i];
 			break;
-			// ��С����
+			// 锟斤拷小锟斤拷锟斤拷
 		case '.':
 			number_c_string[i] = decimal_point;
 			break;
@@ -388,11 +388,11 @@ ICACHE_FLASH_ATTR static cJSON_bool parse_number(cJSON * const item,
 		}
 	}
 
-	loop_end: number_c_string[i] = '\0';	// �����ַ���ĩβ
+	loop_end: number_c_string[i] = '\0';	// 锟斤拷锟斤拷锟街凤拷锟斤拷末尾
 
 #ifndef CJSON_FOR_ESP8266
 	/*
-	 * strtod�����ַ���ת���ɸ���������ͷ�ļ���#include <stdlib.h>
+	 * strtod锟斤拷锟斤拷锟街凤拷锟斤拷转锟斤拷锟缴革拷锟斤拷锟斤拷锟斤拷锟斤拷头锟侥硷拷锟斤拷#include <stdlib.h>
 	 */
 	number = strtod((const char*)number_c_string, (char**)&after_end);
 	if (number_c_string == after_end)
@@ -406,12 +406,12 @@ ICACHE_FLASH_ATTR static cJSON_bool parse_number(cJSON * const item,
 	}
 #endif
 
-	// ͬʱ���� item->valuedouble �� item->valueint
+	// 同时锟斤拷锟斤拷 item->valuedouble 锟斤拷 item->valueint
 
-	// ���ø�����
+	// 锟斤拷锟矫革拷锟斤拷锟斤拷
 	item->valuedouble = number;
 
-	// �������ͣ�����ֹ���
+	// 锟斤拷锟斤拷锟斤拷锟酵ｏ拷锟斤拷锟斤拷止锟斤拷锟�
 	/* use saturation in case of overflow */
 	if (number >= INT_MAX) {
 		item->valueint = INT_MAX;
@@ -421,13 +421,13 @@ ICACHE_FLASH_ATTR static cJSON_bool parse_number(cJSON * const item,
 		item->valueint = (int) number;
 	}
 
-	// ���ϴ����൱�� cJSON_SetNumberHelper ����
+	// 锟斤拷锟较达拷锟斤拷锟洁当锟斤拷 cJSON_SetNumberHelper 锟斤拷锟斤拷
 
-	// ��������
+	// 锟斤拷锟斤拷锟斤拷锟斤拷
 	item->type = cJSON_Number;
 
 #ifndef CJSON_FOR_ESP8266
-	// ������ָ���ƶ�
+	// 锟斤拷锟斤拷锟斤拷指锟斤拷锟狡讹拷
 	input_buffer->offset += (size_t)(after_end - number_c_string);
 #else
 	input_buffer->offset += (size_t) i;
@@ -437,7 +437,7 @@ ICACHE_FLASH_ATTR static cJSON_bool parse_number(cJSON * const item,
 
 /*
  * function: cJSON_SetNumberHelper
- * description: �������ָ�������
+ * description: 锟斤拷锟斤拷锟斤拷锟街革拷锟斤拷锟斤拷锟斤拷
  */
 /* don't ask me, but the original cJSON_SetNumberValue returns an integer or double */
 CJSON_PUBLIC(double) cJSON_SetNumberHelper(cJSON *object, double number) {
@@ -452,7 +452,7 @@ CJSON_PUBLIC(double) cJSON_SetNumberHelper(cJSON *object, double number) {
 	return object->valuedouble = number;
 }
 
-/* ��ӡ����ṹ�� */
+/* 锟斤拷印锟斤拷锟斤拷峁癸拷锟� */
 typedef struct {
 	unsigned char *buffer;
 	size_t length;
@@ -557,7 +557,7 @@ ICACHE_FLASH_ATTR static void update_offset(printbuffer * const buffer) {
  * parameter:
  * return: cJSON_bool -
  * description: Render the number nicely from the given item into a string.
- *              �Ӹ�����item�Ѻõ���Ⱦ�����Ž�string
+ *              锟接革拷锟斤拷锟斤拷item锟窖好碉拷锟斤拷染锟斤拷锟斤拷锟脚斤拷string
  */
 ICACHE_FLASH_ATTR static cJSON_bool print_number(const cJSON * const item,
 		printbuffer * const output_buffer) {
@@ -569,7 +569,7 @@ ICACHE_FLASH_ATTR static cJSON_bool print_number(const cJSON * const item,
 	unsigned char decimal_point = get_decimal_point();
 	double test;
 
-	// ������
+	// 锟斤拷锟斤拷锟斤拷
 	if (output_buffer == NULL) {
 		return false;
 	}
@@ -589,7 +589,7 @@ ICACHE_FLASH_ATTR static cJSON_bool print_number(const cJSON * const item,
 			length = os_sprintf((char*)number_buffer, "%1.17g", d);
 		}
 #else
-		// ESP8266 ��֧��float��double
+		// ESP8266 锟斤拷支锟斤拷float锟斤拷double
 		length = os_sprintf((char*) number_buffer, "%d", item->valueint);
 #endif
 	}
@@ -761,47 +761,47 @@ ICACHE_FLASH_ATTR static unsigned char utf16_literal_to_utf8(
 
 /*
  * function: parse_string
- * parameter: cJSON * const item - �����item
- *            parse_buffer * const input_buffer - Ҫ�������ַ���������
+ * parameter: cJSON * const item - 锟斤拷锟斤拷锟絠tem
+ *            parse_buffer * const input_buffer - 要锟斤拷锟斤拷锟斤拷锟街凤拷锟斤拷锟斤拷锟斤拷锟斤拷
  * return: cJSON_bool
  * description: Parse the input text into an unescaped cinput, and populate item.
- *              ����������ı������Ž�
+ *              锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷谋锟斤拷锟斤拷锟斤拷沤锟�
  */
 ICACHE_FLASH_ATTR static cJSON_bool parse_string(cJSON * const item,
 		parse_buffer * const input_buffer) {
 	const unsigned char *input_pointer = buffer_at_offset(input_buffer) + 1;
-	const unsigned char *input_end = buffer_at_offset(input_buffer) + 1;// ��ʼ�� input_end ָ��
+	const unsigned char *input_end = buffer_at_offset(input_buffer) + 1;// 锟斤拷始锟斤拷 input_end 指锟斤拷
 	unsigned char *output_pointer = NULL;
 	unsigned char *output = NULL;
 
 	/* not a string */
-	// �����ַ�����飬�����һ���ַ����Ƿֺ�
+	// 锟斤拷锟斤拷锟街凤拷锟斤拷锟斤拷椋拷锟斤拷锟斤拷一锟斤拷锟街凤拷锟斤拷锟角分猴拷
 	if (buffer_at_offset(input_buffer)[0] != '\"') {
 		goto fail;
 	}
 
 	/*
-	 * ʾ����"Jack (\"Bee\") Nimble" - 4+1+9+1+6+1=22���ֽ�
-	 * ��ȥת���ַ�����ֻ��Ҫ 20 �ֽڵĿռ�
+	 * 示锟斤拷锟斤拷"Jack (\"Bee\") Nimble" - 4+1+9+1+6+1=22锟斤拷锟街斤拷
+	 * 锟斤拷去转锟斤拷锟街凤拷锟斤拷锟斤拷只锟斤拷要 20 锟街节的空硷拷
 	 */
 	{
 		/* calculate approximate size of the output (overestimate) */
-		// ���������Ҫ������ռ�
+		// 锟斤拷锟斤拷锟斤拷锟斤拷锟揭拷锟斤拷锟斤拷锟秸硷拷
 		size_t allocation_length = 0;
-		size_t skipped_bytes = 0;		// �������ֽ�
+		size_t skipped_bytes = 0;		// 锟斤拷锟斤拷锟斤拷锟街斤拷
 
-		// ��� input_end û��ɨ�赽 input_buffer��ĩβ������input������ \"
+		// 锟斤拷锟� input_end 没锟斤拷扫锟借到 input_buffer锟斤拷末尾锟斤拷锟斤拷锟斤拷input锟斤拷锟斤拷锟斤拷 \"
 		while (((size_t) (input_end - input_buffer->content)
 				< input_buffer->length) && (*input_end != '\"')) {
 			/* is escape sequence */
-			if (input_end[0] == '\\')	// �����ת���ַ�
+			if (input_end[0] == '\\')	// 锟斤拷锟斤拷锟阶拷锟斤拷址锟�
 					{
 				if ((size_t) (input_end + 1 - input_buffer->content)
 						>= input_buffer->length) {
 					/* prevent buffer overflow when last input character is a backslash */
 					goto fail;
 				}
-				skipped_bytes++;		// ����һ��Ҫ�������ַ�
+				skipped_bytes++;		// 锟斤拷锟斤拷一锟斤拷要锟斤拷锟斤拷锟斤拷锟街凤拷
 				input_end++;
 			}
 			input_end++;
@@ -816,7 +816,7 @@ ICACHE_FLASH_ATTR static cJSON_bool parse_string(cJSON * const item,
 		allocation_length =
 				(size_t) (input_end - buffer_at_offset(input_buffer))
 						- skipped_bytes;
-		// ͨ�� hooks.allocate ��ȡ�ڴ�
+		// 通锟斤拷 hooks.allocate 锟斤拷取锟节达拷
 		output = (unsigned char*) input_buffer->hooks.allocate(
 				allocation_length + sizeof(""));
 		if (output == NULL) {
@@ -825,16 +825,16 @@ ICACHE_FLASH_ATTR static cJSON_bool parse_string(cJSON * const item,
 		}
 	}
 
-	// �������ָ��
+	// 锟斤拷锟斤拷锟斤拷锟街革拷锟�
 	output_pointer = output;
 	/* loop through the string literal */
 	while (input_pointer < input_end) {
-		// �������ת���ַ�����ֱ�ӿ���
+		// 锟斤拷锟斤拷锟斤拷锟阶拷锟斤拷址锟斤拷锟斤拷锟街憋拷涌锟斤拷锟�
 		if (*input_pointer != '\\') {
 			*output_pointer++ = *input_pointer++;
 		}
 		/* escape sequence */
-		// ת������
+		// 转锟斤拷锟斤拷锟斤拷
 		else {
 			unsigned char sequence_length = 2;
 			if ((input_end - input_pointer) < 1) {
@@ -881,12 +881,12 @@ ICACHE_FLASH_ATTR static cJSON_bool parse_string(cJSON * const item,
 	}
 
 	/* zero terminate the output */
-	// �����ַ���ĩβ
+	// 锟斤拷锟斤拷锟街凤拷锟斤拷末尾
 	*output_pointer = '\0';
 
-	// ��������
+	// 锟斤拷锟斤拷锟斤拷锟斤拷
 	item->type = cJSON_String;
-	// �����ַ���ֵ
+	// 锟斤拷锟斤拷锟街凤拷锟斤拷值
 	item->valuestring = (char*) output;
 
 	input_buffer->offset = (size_t) (input_end - input_buffer->content);
@@ -1051,11 +1051,11 @@ static cJSON_bool print_object(const cJSON * const item,
  * parameter: parse_buffer * const buffer
  * return: parse_buffer * -
  * description: Utility to jump whitespace and cr/lf
- *              �����ո��'\r'��'\n'
+ *              锟斤拷锟斤拷锟秸革拷锟�'\r'锟斤拷'\n'
  */
 ICACHE_FLASH_ATTR static parse_buffer *buffer_skip_whitespace(
 		parse_buffer * const buffer) {
-	// ������
+	// 锟斤拷锟斤拷锟斤拷
 	if ((buffer == NULL) || (buffer->content == NULL)) {
 		return NULL;
 	}
@@ -1095,12 +1095,12 @@ ICACHE_FLASH_ATTR static parse_buffer *skip_utf8_bom(
 
 /*
  * function: cJSON_ParseWithOpts
- * parameter: const char *value - �ַ���ֵ
+ * parameter: const char *value - 锟街凤拷锟斤拷值
  *            const char **return_parse_end - output
  *            cJSON_bool require_null_terminated -
  * return: CJSON_PUBLIC(cJSON *)
  * description: Parse an object - create a new root, and populate.
- *              ����һ������ - ����һ���µ�root�����ƹ�ȥ
+ *              锟斤拷锟斤拷一锟斤拷锟斤拷锟斤拷 - 锟斤拷锟斤拷一锟斤拷锟铰碉拷root锟斤拷锟斤拷锟狡癸拷去
  */
 CJSON_PUBLIC(cJSON *) cJSON_ParseWithOpts(const char *value, const char **return_parse_end, cJSON_bool require_null_terminated)
 {
@@ -1150,7 +1150,7 @@ CJSON_PUBLIC(cJSON *) cJSON_ParseWithOpts(const char *value, const char **return
 
 	return item;
 
-	// ������
+	// 锟斤拷锟斤拷锟斤拷
 	fail:
 	if (item != NULL)
 	{
@@ -1185,24 +1185,24 @@ CJSON_PUBLIC(cJSON *) cJSON_ParseWithOpts(const char *value, const char **return
 
 /*
  * function: cJSON_Parse
- * parameter: const char *value - �ַ���ֵ
+ * parameter: const char *value - 锟街凤拷锟斤拷值
  * return: CJSON_PUBLIC(cJSON *)
  * description: Default options for cJSON_Parse
- *              �ַ������ͳ�cJSON����
+ *              锟街凤拷锟斤拷锟斤拷锟酵筹拷cJSON锟斤拷锟斤拷
  */
 CJSON_PUBLIC(cJSON *) cJSON_Parse(const char *value)
 {
 	return cJSON_ParseWithOpts(value, 0, 0);
 }
 
-// �Ƚϴ�С
+// 锟饺较达拷小
 #define cjson_min(a, b) ((a < b) ? a : b)
 
 /*
  * function: print
  * parameter: const cJSON * const item - item
- *            cJSON_bool format - �Ƿ��ʽ��
- *            const internal_hooks * const hooks - ���Ӻ���
+ *            cJSON_bool format - 锟角凤拷锟绞斤拷锟�
+ *            const internal_hooks * const hooks - 锟斤拷锟接猴拷锟斤拷
  * return: unsigned char *
  * description:
  */
@@ -1329,14 +1329,14 @@ CJSON_PUBLIC(cJSON_bool) cJSON_PrintPreallocated(cJSON *item, char *buf,
 /*
  * function: parse_value
  * parameter: cJSON * const item -
- *            parse_buffer * const input_buffer - ��������ṹ��
+ *            parse_buffer * const input_buffer - 锟斤拷锟斤拷锟斤拷锟斤拷峁癸拷锟�
  * return: cJSON_bool
  * description: Parser core - when encountering text, process appropriately.
- *              �������ĺ���
+ *              锟斤拷锟斤拷锟斤拷锟侥猴拷锟斤拷
  */
 static cJSON_bool parse_value(cJSON * const item,
 		parse_buffer * const input_buffer) {
-	// �������
+	// 锟斤拷锟斤拷锟斤拷锟�
 	if ((input_buffer == NULL) || (input_buffer->content == NULL)) {
 		return false; /* no input */
 	}
@@ -1347,7 +1347,7 @@ static cJSON_bool parse_value(cJSON * const item,
 			&& (os_strncmp((const char*) buffer_at_offset(input_buffer), "null",
 					4) == 0)) {
 		item->type = cJSON_NULL;
-		input_buffer->offset += 4;	// ���� null
+		input_buffer->offset += 4;	// 锟斤拷锟斤拷 null
 		return true;
 	}
 	/* false */
@@ -1355,7 +1355,7 @@ static cJSON_bool parse_value(cJSON * const item,
 			&& (os_strncmp((const char*) buffer_at_offset(input_buffer),
 					"false", 5) == 0)) {
 		item->type = cJSON_False;
-		input_buffer->offset += 5;	// ���� false
+		input_buffer->offset += 5;	// 锟斤拷锟斤拷 false
 		return true;
 	}
 	/* true */
@@ -1364,17 +1364,17 @@ static cJSON_bool parse_value(cJSON * const item,
 					4) == 0)) {
 		item->type = cJSON_True;
 		item->valueint = 1;
-		input_buffer->offset += 4;	// ���� true
+		input_buffer->offset += 4;	// 锟斤拷锟斤拷 true
 		return true;
 	}
 	/* string */
-	// && ��һ���ַ��Ƿֺ�
+	// && 锟斤拷一锟斤拷锟街凤拷锟角分猴拷
 	if (can_access_at_index(input_buffer, 0)
 			&& (buffer_at_offset(input_buffer)[0] == '\"')) {
 		return parse_string(item, input_buffer);
 	}
 	/* number */
-	// && [��һ���ַ� �Ǹ��ţ�-�� ���� �Ǵ���'0'��С��'9']
+	// && [锟斤拷一锟斤拷锟街凤拷 锟角革拷锟脚ｏ拷-锟斤拷 锟斤拷锟斤拷 锟角达拷锟斤拷'0'锟斤拷小锟斤拷'9']
 	if (can_access_at_index(input_buffer, 0)
 			&& ((buffer_at_offset(input_buffer)[0] == '-')
 					|| ((buffer_at_offset(input_buffer)[0] >= '0')
@@ -1382,13 +1382,13 @@ static cJSON_bool parse_value(cJSON * const item,
 		return parse_number(item, input_buffer);
 	}
 	/* array */
-	// && ��һ���ַ�'['
+	// && 锟斤拷一锟斤拷锟街凤拷'['
 	if (can_access_at_index(input_buffer, 0)
 			&& (buffer_at_offset(input_buffer)[0] == '[')) {
 		return parse_array(item, input_buffer);
 	}
 	/* object */
-	// && ��һ���ַ�'{'
+	// && 锟斤拷一锟斤拷锟街凤拷'{'
 	if (can_access_at_index(input_buffer, 0)
 			&& (buffer_at_offset(input_buffer)[0] == '{')) {
 		return parse_object(item, input_buffer);
@@ -1403,7 +1403,7 @@ static cJSON_bool parse_value(cJSON * const item,
  *                 printbuffer * const output_buffer -
  * return: cJSON_bool
  * description: Render a value to text.
- *              ��Ⱦvalue���ı�
+ *              锟斤拷染value锟斤拷锟侥憋拷
  */
 ICACHE_FLASH_ATTR static cJSON_bool print_value(const cJSON * const item,
 		printbuffer * const output_buffer) {
@@ -1413,7 +1413,7 @@ ICACHE_FLASH_ATTR static cJSON_bool print_value(const cJSON * const item,
 		return false;
 	}
 
-	// ѡ������
+	// 选锟斤拷锟斤拷锟斤拷
 	switch ((item->type) & 0xFF) {
 	case cJSON_NULL:
 		output = ensure(output_buffer, 5);
@@ -1476,8 +1476,8 @@ ICACHE_FLASH_ATTR static cJSON_bool print_value(const cJSON * const item,
 
 /*
  * function: parse_array
- * parameter: cJSON * const item - �����item
- *            parse_buffer * const input_buffer - ����Ļ���
+ * parameter: cJSON * const item - 锟斤拷锟斤拷锟絠tem
+ *            parse_buffer * const input_buffer - 锟斤拷锟斤拷幕锟斤拷锟�
  * return: cJSON_bool
  * description: Build an array from input text.
  */
@@ -1486,14 +1486,14 @@ ICACHE_FLASH_ATTR static cJSON_bool parse_array(cJSON * const item,
 	cJSON *head = NULL; /* head of the linked list */
 	cJSON *current_item = NULL;
 
-	// �������Ļ���
-	// ������ >= CJSON_NESTING_LIMIT��Ĭ��1000�� �������
+	// 锟斤拷锟斤拷锟斤拷锟侥伙拷锟斤拷
+	// 锟斤拷锟斤拷锟斤拷 >= CJSON_NESTING_LIMIT锟斤拷默锟斤拷1000锟斤拷 锟斤拷锟斤拷锟斤拷锟�
 	if (input_buffer->depth >= CJSON_NESTING_LIMIT) {
 		return false; /* to deeply nested */
 	}
 	input_buffer->depth++;
 
-	// ����һ���ַ��ǲ��� '['
+	// 锟斤拷锟斤拷一锟斤拷锟街凤拷锟角诧拷锟斤拷 '['
 	if (buffer_at_offset(input_buffer)[0] != '[') {
 		/* not an array */
 		goto fail;
@@ -1554,7 +1554,7 @@ ICACHE_FLASH_ATTR static cJSON_bool parse_array(cJSON * const item,
 
 	success: input_buffer->depth--;
 
-	// ��������
+	// 锟斤拷锟斤拷锟斤拷锟斤拷
 	item->type = cJSON_Array;
 	item->child = head;
 
@@ -1895,27 +1895,25 @@ CJSON_PUBLIC(cJSON *) cJSON_GetArrayItem(const cJSON *array, int index)
  * function: get_object_item
  * parameter: const cJSON * const object -
  *            const char * const name -
- *            const cJSON_bool case_sensitive - �Ƿ����ִ�Сд
+ *            const cJSON_bool case_sensitive - 锟角凤拷锟斤拷锟街达拷小写
  * description:
  */
 ICACHE_FLASH_ATTR static cJSON *get_object_item(const cJSON * const object,
 		const char * const name, const cJSON_bool case_sensitive) {
 	cJSON *current_element = NULL;
 
-	// ������
 	if ((object == NULL) || (name == NULL)) {
 		return NULL;
 	}
 
-	// ��ǰԪ��
 	current_element = object->child;
-	if (case_sensitive)	// �Ƿ����ִ�Сд
-	{	// ��������
+	if (case_sensitive)
+	{
 		while ((current_element != NULL)
 				&& (strcmp(name, current_element->string) != 0)) {
 			current_element = current_element->next;
 		}
-	} else {	// ��������
+	} else {
 		while ((current_element != NULL)
 				&& (case_insensitive_strcmp((const unsigned char*) name,
 						(const unsigned char*) (current_element->string)) != 0)) {
@@ -1946,10 +1944,10 @@ CJSON_PUBLIC(cJSON *) cJSON_GetObjectItemCaseSensitive(const cJSON * const objec
 
 /*
  * function: cJSON_HasObjectItem
- * parameter: const cJSON *object - һ��cJSON����
- *            const char *string - JSON��key
+ * parameter: const cJSON *object - 一锟斤拷cJSON锟斤拷锟斤拷
+ *            const char *string - JSON锟斤拷key
  * return: CJSON_PUBLIC(cJSON_bool)
- * description: �Ƿ���ĳ��Key����������
+ * description: 锟角凤拷锟斤拷某锟斤拷Key锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
  */
 CJSON_PUBLIC(cJSON_bool) cJSON_HasObjectItem(const cJSON *object,
 		const char *string) {
@@ -1962,20 +1960,20 @@ CJSON_PUBLIC(cJSON_bool) cJSON_HasObjectItem(const cJSON *object,
  *            cJSON *item -
  * return: void
  * description: Utility for array list handling.
- *              ����������
+ *              锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
  */
 ICACHE_FLASH_ATTR static void suffix_object(cJSON *prev, cJSON *item) {
-	prev->next = item;	// ǰһ���ڵ�����next
-	item->prev = prev;	// ����ǰ�ڵ�����prev
+	prev->next = item;	// 前一锟斤拷锟节碉拷锟斤拷锟斤拷next
+	item->prev = prev;	// 锟斤拷锟斤拷前锟节碉拷锟斤拷锟斤拷prev
 }
 
 /*
  * function: create_reference
  * parameter: const cJSON *item -
- *            const internal_hooks * const hooks - ���Ӻ���
+ *            const internal_hooks * const hooks - 锟斤拷锟接猴拷锟斤拷
  * return: cJSON *
  * description: Utility for handling references.
- *              ����һ��cJSON������
+ *              锟斤拷锟斤拷一锟斤拷cJSON锟斤拷锟斤拷锟斤拷
  */
 ICACHE_FLASH_ATTR static cJSON *create_reference(const cJSON *item,
 		const internal_hooks * const hooks) {
@@ -2004,12 +2002,12 @@ ICACHE_FLASH_ATTR static cJSON *create_reference(const cJSON *item,
  *            cJSON *item
  * return: CJSON_PUBLIC(void)
  * description: Add item to array/object.
- *              ���ڸ�array��object���item����cJSON��obeject��array��һ������
+ *              锟斤拷锟节革拷array锟斤拷object锟斤拷锟絠tem锟斤拷锟斤拷cJSON锟斤拷obeject锟斤拷array锟斤拷一锟斤拷锟斤拷锟斤拷
  */
 CJSON_PUBLIC(void) cJSON_AddItemToArray(cJSON *array, cJSON *item) {
 	cJSON *child = NULL;
 
-	// ������
+	// 锟斤拷锟斤拷锟斤拷
 	if ((item == NULL) || (array == NULL)) {
 		return;
 	}
@@ -2053,14 +2051,14 @@ CJSON_PUBLIC(void) cJSON_AddItemToObject(cJSON *object, const char *string,
 
 /*
  * function: cJSON_AddItemToObjectCS
- * parameter: cJSON *object - Ҫ��ӽ���object
- *            const char *string - JSON�ļ�����
- *            cJSON *item - ��ӵ�item
+ * parameter: cJSON *object - 要锟斤拷咏锟斤拷锟給bject
+ *            const char *string - JSON锟侥硷拷锟斤拷锟斤拷
+ *            cJSON *item - 锟斤拷拥锟絠tem
  * description: Add an item to an object with constant string as key
  */
 CJSON_PUBLIC(void) cJSON_AddItemToObjectCS(cJSON *object, const char *string,
 		cJSON *item) {
-	// ������
+	// 锟斤拷锟斤拷锟斤拷
 	if ((item == NULL) || (string == NULL)) {
 		return;
 	}
@@ -2072,7 +2070,7 @@ CJSON_PUBLIC(void) cJSON_AddItemToObjectCS(cJSON *object, const char *string,
 	item->string = (char*) string;
 	item->type |= cJSON_StringIsConst;
 
-	cJSON_AddItemToArray(object, item); // ��Ϊ������ӽ�obeject
+	cJSON_AddItemToArray(object, item); // 锟斤拷为锟斤拷锟斤拷锟斤拷咏锟給beject
 }
 
 #if defined(__clang__) || (defined(__GNUC__)  && ((__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ > 5))))
@@ -2315,8 +2313,8 @@ CJSON_PUBLIC(cJSON *) cJSON_CreateBool(cJSON_bool b)
  */
 CJSON_PUBLIC(cJSON *) cJSON_CreateNumber(double num)
 {
-	cJSON *item = cJSON_New_Item(&global_hooks);	// ����һ���µ�item
-	if(item)// �����Ϊ�գ���������ֵ
+	cJSON *item = cJSON_New_Item(&global_hooks);	// 锟斤拷锟斤拷一锟斤拷锟铰碉拷item
+	if(item)// 锟斤拷锟斤拷锟轿拷眨锟斤拷锟斤拷锟斤拷锟斤拷锟街�
 	{
 		item->type = cJSON_Number;
 		item->valuedouble = num;
@@ -2388,7 +2386,7 @@ CJSON_PUBLIC(cJSON *) cJSON_CreateRaw(const char *raw)
 /*
  * function: cJSON_CreateArray
  * return: CJSON_PUBLIC(cJSON *)
- * description: ����һ��Array
+ * description: 锟斤拷锟斤拷一锟斤拷Array
  */
 CJSON_PUBLIC(cJSON *) cJSON_CreateArray(void)
 {
@@ -2404,7 +2402,7 @@ CJSON_PUBLIC(cJSON *) cJSON_CreateArray(void)
 /*
  * function: cJSON_CreateObject
  * return: CJSON_PUBLIC(cJSON *)
- * description: ����һ��Object
+ * description: 锟斤拷锟斤拷一锟斤拷Object
  */
 CJSON_PUBLIC(cJSON *) cJSON_CreateObject(void)
 {
@@ -2421,10 +2419,10 @@ CJSON_PUBLIC(cJSON *) cJSON_CreateObject(void)
 
 /*
  * function: cJSON_CreateIntArray
- * parameter: const int *numbers - һ������int������
- *            int count - ���鳤��
+ * parameter: const int *numbers - 一锟斤拷锟斤拷锟斤拷int锟斤拷锟斤拷锟斤拷
+ *            int count - 锟斤拷锟介长锟斤拷
  * return: CJSON_PUBLIC(cJSON *)
- * description: ����һ��Int Array����ѭ���ķ�ʽ
+ * description: 锟斤拷锟斤拷一锟斤拷Int Array锟斤拷锟斤拷循锟斤拷锟侥凤拷式
  */
 CJSON_PUBLIC(cJSON *) cJSON_CreateIntArray(const int *numbers, int count)
 {
@@ -2433,7 +2431,7 @@ CJSON_PUBLIC(cJSON *) cJSON_CreateIntArray(const int *numbers, int count)
 	cJSON *p = NULL;
 	cJSON *a = NULL;
 
-	// ������
+	// 锟斤拷锟斤拷锟斤拷
 	if ((count < 0) || (numbers == NULL))
 	{
 		return NULL;
@@ -2448,15 +2446,15 @@ CJSON_PUBLIC(cJSON *) cJSON_CreateIntArray(const int *numbers, int count)
 			cJSON_Delete(a);
 			return NULL;
 		}
-		if(!i)	// ��� i == 0
+		if(!i)	// 锟斤拷锟� i == 0
 		{
 			a->child = n;
 		}
 		else
 		{
-			suffix_object(p, n);	// ������������
+			suffix_object(p, n);	// 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
 		}
-		p = n;	// �ѵ�ǰ�ڵ㻺����������Ϊ��һ�ڵ�
+		p = n;	// 锟窖碉拷前锟节点缓锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷为锟斤拷一锟节碉拷
 	}
 
 	return a;
@@ -2465,7 +2463,7 @@ CJSON_PUBLIC(cJSON *) cJSON_CreateIntArray(const int *numbers, int count)
 /*
  * function: cJSON_CreateFloatArray
  * return: CJSON_PUBLIC(cJSON *)
- * description: ����һ��Float Array
+ * description: 锟斤拷锟斤拷一锟斤拷Float Array
  */
 CJSON_PUBLIC(cJSON *) cJSON_CreateFloatArray(const float *numbers, int count)
 {
@@ -2506,7 +2504,7 @@ CJSON_PUBLIC(cJSON *) cJSON_CreateFloatArray(const float *numbers, int count)
 /*
  * function: cJSON_CreateDoubleArray
  * return: CJSON_PUBLIC(cJSON *)
- * description: ����һ��Double Array
+ * description: 锟斤拷锟斤拷一锟斤拷Double Array
  */
 CJSON_PUBLIC(cJSON *) cJSON_CreateDoubleArray(const double *numbers, int count)
 {
@@ -2547,7 +2545,7 @@ CJSON_PUBLIC(cJSON *) cJSON_CreateDoubleArray(const double *numbers, int count)
 /*
  * function: cJSON_CreateStringArray
  * return: CJSON_PUBLIC(cJSON *)
- * description: ����һ���ַ���Array
+ * description: 锟斤拷锟斤拷一锟斤拷锟街凤拷锟斤拷Array
  */
 CJSON_PUBLIC(cJSON *) cJSON_CreateStringArray(const char **strings, int count)
 {
@@ -2669,7 +2667,7 @@ CJSON_PUBLIC(cJSON *) cJSON_Duplicate(const cJSON *item, cJSON_bool recurse)
 
 /*
  * function: cJSON_Minify
- * description: ȥ���ַ����еĿո�\t��\r��\n���ַ�
+ * description: 去锟斤拷锟街凤拷锟斤拷锟叫的空革拷\t锟斤拷\r锟斤拷\n锟斤拷锟街凤拷
  */
 CJSON_PUBLIC(void) cJSON_Minify(char *json) {
 	unsigned char *into = (unsigned char*) json;
@@ -2721,7 +2719,7 @@ CJSON_PUBLIC(void) cJSON_Minify(char *json) {
 
 /****************************************************************/
 // isXXX Function
-// �ж�item��������
+// 锟叫讹拷item锟斤拷锟斤拷锟斤拷锟斤拷
 CJSON_PUBLIC(cJSON_bool) cJSON_IsInvalid(const cJSON * const item) {
 	if (item == NULL) {
 		return false;

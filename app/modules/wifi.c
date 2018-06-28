@@ -115,6 +115,7 @@ static void ICACHE_FLASH_ATTR wifi_check_ip(void *arg)
 	}
 	else
 	{
+
 		if(wifi_station_get_connect_status() == STATION_WRONG_PASSWORD)
 		{
 #ifdef	DBUG_MODE
@@ -147,6 +148,7 @@ static void ICACHE_FLASH_ATTR wifi_check_ip(void *arg)
 		}
 		os_timer_setfn(&WiFiLinker, (os_timer_func_t *)wifi_check_ip, NULL);
 		os_timer_arm(&WiFiLinker,2000, 0);
+
 	}
 	if(wifiStatus != lastWifiStatus){
 		lastWifiStatus = wifiStatus;
@@ -175,6 +177,7 @@ static void ICACHE_FLASH_ATTR wifi_check_ip(void *arg)
 			}
 			else
 			{
+				GPIO_OUTPUT_SET(GPIO_ID_PIN(14), 1);//没有连接到wifi
 				//长时间用户没有配置，停止配置模式.或者用户的网络断开了，也会进入到该状态
 #ifdef DBUG_MODE
 				INFO("USER NOT SEND PASSWD AND APNAME STOP SMARTCONFIG\r\n");

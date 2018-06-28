@@ -310,7 +310,11 @@ uart_recvTask(os_event_t *events)
         }
         process_data.data=data_process_buffer;
         process_data.length=fifo_len;
+#ifdef BYTE_PROCESS
+        data_process_byte(&process_data);
+#else
         data_process(&process_data);
+#endif
         WRITE_PERI_REG(UART_INT_CLR(UART0), UART_RXFIFO_FULL_INT_CLR|UART_RXFIFO_TOUT_INT_CLR);
         uart_rx_intr_enable(UART0);
         os_memset(data_process_buffer,0,MAX_UART_BUFFER_LEN);
@@ -349,7 +353,7 @@ uart_init(UartBautRate uart0_br, UartBautRate uart1_br)
 
     /*option 2: output from uart1,uart1 output will not wait , just for output debug info */
     /*os_printf output uart data via uart1(GPIO2)*/
-    //os_install_putc1((void *)uart1_write_char);    //use this one to output debug information via uart1 //
+    os_install_putc1((void *)uart1_write_char);    //use this one to output debug information via uart1 //
 
     /*option 3: output from uart0 will skip current byte if fifo is full now... */
     /*see uart0_write_char_no_wait:you can output via a buffer or output directly */

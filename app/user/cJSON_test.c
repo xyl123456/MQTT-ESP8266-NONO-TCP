@@ -226,16 +226,18 @@ void create_objects(void) {
 	cJSON_Delete(root);
 }
 
+
+/*
 int ICACHE_FLASH_ATTR
 cJSON_test(void) {
 	os_printf("\r\n=====================\r\n");
-	/* print the version */
+
 	os_printf("cJSON Version: %s", cJSON_Version());
 	os_printf("\r\n=====================\r\n");
 
-	/* Now some samplecode for building objects concisely: */
+
 	create_objects();
-//解析JSON格式数据
+
 	os_printf("\r\nparse string!\r\n");
 	u8* data = "{\"string\":\"hello world\"}";
 	cJSON * root = cJSON_Parse(data);
@@ -258,6 +260,7 @@ cJSON_test(void) {
 	cJSON * root2 = cJSON_Parse(num);
 	if (NULL != root2) {
 		if (cJSON_HasObjectItem(root2, "number")) {
+
 			cJSON *number = cJSON_GetObjectItem(root2, "number");
 			if (cJSON_IsNumber(number)) {
 				char *n = cJSON_Print(number);
@@ -275,3 +278,4 @@ cJSON_test(void) {
 
 	return 0;
 }
+*/

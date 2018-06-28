@@ -56,9 +56,7 @@ static ETSTimer sntp_timer;
 TCP_Client  tcpClient;
 
 
-process_data_t  mqtt_receve_data;
 
-os_timer_t mqtt_serial_timer;//MQtt周期定时器
 
 void ICACHE_FLASH_ATTR mqtt_serial_cb(void);
 void sntpfn()
@@ -74,6 +72,8 @@ void sntpfn()
     } else {
             os_timer_disarm(&sntp_timer);
             TCP_Connect(&tcpClient);
+            uart0_tx_buffer("\r\n",2);
+
     }
 }
 
@@ -97,74 +97,9 @@ void wifiConnectCb(uint8_t status)
 
     } else {
     	TCP_Disconnect(&tcpClient);
+    	GPIO_OUTPUT_SET(GPIO_ID_PIN(14), 1);
     }
 }
-
-void mqttConnectedCb(uint32_t *args)
-{
-    TCP_Client* client = (TCP_Client*)args;
-    process_client=client;
-
-#ifdef DBUG_MODE
-    INFO("MQTT: Connected\r\n");
-#endif
-
-	//test任务
-    /*
-	os_timer_disarm(&mqtt_serial_timer);
-	os_timer_setfn(&mqtt_serial_timer, (os_timer_func_t *)mqtt_serial_cb, NULL);
-	os_timer_arm(&mqtt_serial_timer, 10000, 0);
-*/
-   MQTT_Subscribe(client, "/xylmqtt/pm25_control", 0);
-   // MQTT_Subscribe(client, "/mqtt/topic/1", 1);
-   // MQTT_Subscribe(client, "/mqtt/topic/2", 2);
-
-    //MQTT_Publish(client, "/mqtt/topic/0", "hello0", 6, 0, 0);
-   // MQTT_Publish(client, "/mqtt/topic/1", "hello1", 6, 1, 0);
-   // MQTT_Publish(client, "/mqtt/topic/2", "hello2", 6, 2, 0);
-
-}
-
-void mqttDisconnectedCb(uint32_t *args)
-{
-    TCP_Client* client = (TCP_Client*)args;
-#ifdef DBUG_MODE
-    INFO("TCP: Disconnected\r\n");
-#endif
-}
-
-void mqttPublishedCb(uint32_t *args)
-{
-    TCP_Client* client = (TCP_Client*)args;
-#ifdef DBUG_MODE
-    INFO("TCP: Published\r\n");
-#endif
-}
-
-void mqttDataCb(uint32_t *args, const char* topic, uint32_t topic_len, const char *data, uint32_t data_len)
-{
-
-    char *topicBuf = (char*)os_zalloc(topic_len+1),
-            *dataBuf = (char*)os_zalloc(data_len+1);
-
-    TCP_Client* client = (TCP_Client*)args;
-
-    os_memcpy(topicBuf, topic, topic_len);
-    topicBuf[topic_len] = 0;
-
-    os_memcpy(dataBuf, data, data_len);
-    dataBuf[data_len] = 0;
-#ifdef DBUG_MODE
-    INFO("Receive topic: %s, data: %s \r\n", topicBuf, dataBuf);
-#endif
-
-    mqtt_receve_data.data=dataBuf;
-    mqtt_receve_data.length=data_len;
-    mqtt_data_process(&mqtt_receve_data);
-    os_free(topicBuf);
-    os_free(dataBuf);
-}
-
 
 /******************************************************************************
  * FunctionName : user_rf_cal_sector_set
@@ -217,25 +152,22 @@ user_rf_cal_sector_set(void)
     return rf_cal_sec;
 }
 
-void ICACHE_FLASH_ATTR mqtt_serial_cb(void){
 
-	// MQTT_Publish(&mqttClient, "/xylmqtt/pm25", "hello!", 6, 0, 0);
 
-}
-
-extern int cJSON_test(void);
 
 void ICACHE_FLASH_ATTR to_scan(void) {
-
-	//cJSON_test();
 
 }
 void ICACHE_FLASH_ATTR gpio_init(void) {
 	PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO0_U, FUNC_GPIO0);//设置为复位的按键  主要用于重新配置wifi
-#ifdef UDP_ENABLE
+
+#ifdef SHARE_MODE
 	PIN_FUNC_SELECT(PERIPHS_IO_MUX_MTDI_U, FUNC_GPIO12);  //控制继电器IO
 	GPIO_OUTPUT_SET(GPIO_ID_PIN(12), 0);
+#else
+
 #endif
+
 	PIN_FUNC_SELECT(PERIPHS_IO_MUX_MTMS_U, FUNC_GPIO14);  //输出wifi的状态
 	GPIO_OUTPUT_SET(GPIO_ID_PIN(14), 1);//WIFI模块未配置
 }
@@ -243,7 +175,7 @@ void user_init(void)
 {
 	gpio_init();
 	system_uart_de_swap();
-    uart_init(BIT_RATE_115200, BIT_RATE_115200);
+    uart_init(BIT_RATE_9600, BIT_RATE_9600);
     os_delay_us(60000);
     //read and save config_data
 

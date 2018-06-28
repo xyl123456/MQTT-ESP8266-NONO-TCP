@@ -22,6 +22,9 @@ typedef struct process_data
 extern TCP_Client *process_client;
 extern void fill_in_keeplive_message(tcp_message_t tcp_keep_mess);
 
+extern void tcp_data_process_byte(uint8 *psent, uint16 length);
+extern void data_process_byte(tcp_message_t* process);
+
 extern void data_process( tcp_message_t*process_data);
 extern void tcp_data_process(uint8 *psent, uint16 length);
 #endif /* APP_INCLUDE_PROCESS_DATA_H_ */

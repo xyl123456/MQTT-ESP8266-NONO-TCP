@@ -43,7 +43,7 @@
 
 
 
-#define TCP_TASK_PRIO                2
+#define TCP_TASK_PRIO              2
 #define TCP_TASK_QUEUE_SIZE        1
 #define TCP_SEND_TIMOUT            5
 
@@ -51,7 +51,7 @@
 os_event_t tcp_procTaskQueue[TCP_TASK_QUEUE_SIZE];
 
 
-
+uint8_t WIFI_CMD[13]={0xEB,0x90,0x00,0x0B,0x0F,0x00,0x00,0x00,0x00,0x00,0x1A,0x0D,0x0A};
 
 #ifndef QUEUE_BUFFER_SIZE
 #define QUEUE_BUFFER_SIZE             2048
@@ -248,6 +248,10 @@ tcp_tcpclient_connect_cb(void *arg)
     client->sendTimeout = TCP_SEND_TIMOUT;
     client->connState = TCP_DATA;
     system_os_post(TCP_TASK_PRIO, 0, (os_param_t)client);
+    //WIFI模块连接成功，发送串口成功命令
+    GPIO_OUTPUT_SET(GPIO_ID_PIN(14), 0);
+
+    uart0_tx_buffer(WIFI_CMD,13);
 }
 
 /**
@@ -266,7 +270,6 @@ tcp_tcpclient_recon_cb(void *arg, sint8 errType)
     client->connState = TCP_RECONNECT_REQ;
 
     system_os_post(TCP_TASK_PRIO, 0, (os_param_t)client);
-
 }
 
 void ICACHE_FLASH_ATTR tcp_timer(void *arg)
@@ -285,6 +288,8 @@ void ICACHE_FLASH_ATTR tcp_timer(void *arg)
         //等待MQTT_RECONNECT_TIMEOUT时间以后，如果还没有连接成功，再次发送消息给MQTT_WORKER
         //并且调用超时函数,建立TCP重新连接
         if (client->reconnectTick > TCP_RECONNECT_TIMEOUT) {
+
+        	GPIO_OUTPUT_SET(GPIO_ID_PIN(14), 1);//没有连接到wifi
         	INFO("SEND RECONNECT SINGLE\r\n");
             client->reconnectTick = 0;
             client->connState = TCP_RECONNECT;
@@ -473,14 +478,18 @@ TCP_Task(os_event_t *e)
 	        if (QUEUE_Gets(&client->msgQueue, dataBuffer, &dataLen, TCP_BUF_SIZE) == 0) {
 
 	            client->sendTimeout = TCP_SEND_TIMOUT;
+#ifdef BYTE_PROCESS
+	            tcp_data_process_byte(dataBuffer, dataLen);
+#else
 	            //处理TCP的接收数据，通过串口发送
-	            tcp_data_process(dataBuffer, dataLen);
-
+	           	tcp_data_process(dataBuffer, dataLen);
+#endif
 	            client->tcp_state.inbound_message = NULL;
 	            break;
 	        }
 	        break;
 	    }
+
 }
 
 
